@@ -1,0 +1,66 @@
+#端口号
+server:
+  #这里指定端口号没用,因为zipkin会默认8080端口,可能是与tomcat有冲突
+  port: 8081
+#应用名、生效的配置文件、从配置中心拉取配置文件
+spring:
+  application:
+    name: '@zipkin.server.id@'
+  profiles:
+    active: ${spring.profiles.active}
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+    config:
+      discovery:
+        enabled: true
+        service-id: '@config.server.id@'
+      fail-fast: false
+    bus:
+      id: ${spring.application.name}:${server.port}
+      trace:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: testserver
+    password: testserver
+
+#将网关注册到eureka
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+    appname: ${spring.application.name}
+  client:
+    serviceUrl:
+      defaultZone: '@eureka.serviceUrl.default@'
+
+
+#actuator健康监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+
+#actuator健康监控信息 - 每个属性都是自定义展示的,可以随意添加
+info:
+  name: ${spring.application.name}
+  profiles: ${spring.profiles.active}
+  version: '@project.version@'
+  encoding: '@project.build.sourceEncoding@'
+  java-version: '@java.version@'
+
+#日志输出
+logging:
+  file: E:\logs\zipkin.log
+  file.max-size: 100MB
