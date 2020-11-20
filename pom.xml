@@ -23,7 +23,7 @@
         <spring.boot.version>2.1.18.RELEASE</spring.boot.version>
         <spring.cloud.version>Greenwich.SR6</spring.cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <zipkin.version>2.12.4</zipkin.version>
+        <zipkin.version>2.12.3</zipkin.version>
         <eureka.serviceUrl.default>http://localhost:1111/eureka</eureka.serviceUrl.default>
         <!-- 各个server的名称 -->
         <eureka.server.id>EUREKA-SERVER</eureka.server.id>
